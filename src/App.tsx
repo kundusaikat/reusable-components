@@ -1,13 +1,16 @@
 import React from 'react';
 
 import './App.css';
-import OTPForm from './components/OTPForm';
+// import NavbarSlide from './components/NavbarSlide';
+import { Navbar } from './components/Navbar';
+// import OTPForm from './components/OTPForm';
 
 function App() {
   return (
     <div>
-      <div className='w-6/12 m-auto'>
-        <OTPForm digit={6}/>
+      <div className='w-screen'>
+        {/* <OTPForm digit={6}/> */}
+        <Navbar />
       </div>
     </div>
   );
