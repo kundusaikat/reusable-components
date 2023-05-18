@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Paths } from "./Paths";
+import { Link } from "react-router-dom";
 
 export const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -10,93 +12,100 @@ export const Navbar = () => {
 
   return (
     <>
-      <div className="bg-black text-white flex justify-between px-5 items-center h-[8vh] sticky z-10">
-        <motion.div
-          className={`flex flex-col gap-1 cursor-pointer ${
-            menuOpen ? "rotate-90" : ""
-          }`}
-          onClick={toggleMenu}
-          initial={false}
-          animate={{ rotate: menuOpen ? 90 : 0 }}
-          transition={{ duration: 1, ease: "easeInOut" }}
-        >
-          <div className="w-6 h-1 bg-white"></div>
-          <div className="w-6 h-1 bg-white"></div>
-          <div className="w-6 h-1 bg-white"></div>
-        </motion.div>
-
-        <AnimatePresence>
-          {!menuOpen && (
-            <>
-              <motion.div
-                className=""
-                initial={{ y: "-100%" }}
-                animate={{ y: "0%" }}
-                exit={{ y: "-100%" }}
-                transition={{ duration: 1, ease: "easeInOut" }}
-              >
-                Navbar
-              </motion.div>
-              <motion.div
-                className=""
-                initial={{ y: "-100%" }}
-                animate={{ y: "0%" }}
-                exit={{ y: "-100%" }}
-                transition={{ duration: 1,ease: "easeInOut" }}
-              >
-                Saikat
-              </motion.div>
-            </>
-          )}
-          
-        </AnimatePresence>
-        <AnimatePresence>
-        {
-            menuOpen && 
-            <motion.div
-                className="float-right fixed right-[5vw]"
-                onClick={toggleMenu}
-                initial={{ x: "5vw" }}
-                animate={{ x: "0vw" }}
-                exit={{ x: "5vw" }}
-                transition={{ duration: 1, ease: "easeInOut" }}
-              >
-                X
-              </motion.div>
-          }
-          </AnimatePresence>
-      </div>
-      <AnimatePresence>
-        {menuOpen && (
+      <div className="relative z-10">
+        {/* Navbar */}
+        <div className="bg-black text-white flex justify-between px-[2vw] items-center h-[8vh] sticky z-10">
+          {/* hamburger */}
           <motion.div
-            className="fixed top-[8vh] w-full z-0 bg-black h-[92vh] text-white"
-            initial={{ y: "-100%" }}
-            animate={{ y: "0%" }}
-            exit={{ y: "-100%" }}
-            transition={{ duration: 0.5, ease: "easeInOut" }}
+            className={`flex flex-col gap-1 cursor-pointer ${
+              menuOpen ? "rotate-90" : ""
+            }`}
+            onClick={toggleMenu}
+            initial={{ y: "-6vh" }}
+            animate={{ y: "0vh", rotate: menuOpen ? 90 : 0 }}
+            transition={{ duration: 3, ease: "easeInOut" }}
           >
-            
+            <div className="w-6 h-1 bg-white"></div>
+            <div className="w-6 h-1 bg-white"></div>
+            <div className="w-6 h-1 bg-white"></div>
           </motion.div>
-        )}
-      </AnimatePresence>
-      <AnimatePresence>
-      {menuOpen && (
+
+          {/* Rest of the navbar */}
+          <AnimatePresence>
+            {!menuOpen && (
+              <>
+                <motion.div
+                  className=""
+                  initial={{ y: "-6vh" }}
+                  animate={{ y: "0vh" }}
+                  exit={{ y: "-6vh" }}
+                  transition={{ duration: 3, ease: "easeInOut" }}
+                >
+                  Navbar
+                </motion.div>
+                <motion.div
+                  className=""
+                  initial={{ y: "-6vh" }}
+                  animate={{ y: "0vh" }}
+                  exit={{ y: "-6vh" }}
+                  transition={{ duration: 3, ease: "easeInOut" }}
+                >
+                  Saikat
+                </motion.div>
+              </>
+            )}
+          </AnimatePresence>
+          {/* Cross in open menu */}
+          <AnimatePresence>
+            {menuOpen && (
               <motion.div
-                initial={{ x: "-100%" }}
-                animate={{ x: "0%" }}
-                exit={{ x: "-100%" }}
-                transition={{ duration: 1, ease: "easeInOut" }}
-                className="px-5 flex flex-col gap-10 text-white"
+                className="float-right fixed right-[2vw] cursor-pointer"
+                onClick={toggleMenu}
+                initial={{ x: "10vw" }}
+                animate={{ x: "0vw" }}
+                exit={{ x: "10vw" }}
+                transition={{ duration: 3, ease: "easeInOut" }}
               >
-                <p>menu 1</p>
-                <p>menu 2</p>
-                <p>menu 3</p>
-                <p>menu 4</p>
-                <p>menu 5</p>
-                <p>menu 6</p>
-                <p>menu 7</p>
+                <div className=" w-6 h-1 bg-white transform rotate-45 absolute "></div>
+                <div className=" w-6 h-1 bg-white transform -rotate-45 "></div>
               </motion.div>
-       ) }</AnimatePresence>
+            )}
+          </AnimatePresence>
+        </div>
+
+        {/* Sliding top blank div */}
+        <AnimatePresence>
+          {menuOpen && (
+            <motion.div
+              className="fixed top-[8vh] w-full  bg-black h-[92vh] text-white"
+              initial={{ y: "-100%" }}
+              animate={{ y: "0%" }}
+              exit={{ y: "-100%" }}
+              transition={{ duration: 3, ease: "easeInOut" }}
+            ></motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Sliding menus */}
+        <AnimatePresence>
+          {menuOpen && (
+            <motion.div
+              initial={{ x: "-100%" }}
+              animate={{ x: "0%" }}
+              exit={{ x: "-100%" }}
+              transition={{ duration: 3, ease: "easeInOut" }}
+              onClick={toggleMenu}
+              className="fixed top-[8vh] px-[2vw] flex flex-col gap-1 text-white z-0"
+            >
+              {Paths.map((el) => (
+                <Link to={el.shortPathName}>
+                  <p>{el.title}</p>
+                </Link>
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
     </>
   );
 };

@@ -1,16 +1,34 @@
-import React from 'react';
+import { Navbar } from "./components/Navbar";
+import { Routes, Route, Outlet,Navigate} from "react-router-dom";
 
-import './App.css';
-// import NavbarSlide from './components/NavbarSlide';
-import { Navbar } from './components/Navbar';
-// import OTPForm from './components/OTPForm';
+import { Paths } from "./components/Paths";
 
 function App() {
   return (
     <div>
-      <div className='w-screen'>
+      <div className="w-screen">
         {/* <OTPForm digit={6}/> */}
-        <Navbar />
+
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <>
+                <Navbar />
+                <Outlet />
+              </>
+            }
+          >
+            {Paths.map((el) => (
+              
+              <Route path={el.shortPathName} element={el.component}></Route>
+            ))}
+            
+            
+
+            <Route path="*" element={<Navigate to="page-not-found" />} />
+          </Route>
+        </Routes>
       </div>
     </div>
   );
